@@ -212,6 +212,20 @@ static const CGFloat kCancelButtonShadowHeightRatio = 0.333f;
     [self.items addObject:item];
 }
 
+- (void)updateItemTitle:(NSString *)title image:(UIImage *)image atIndex:(NSUInteger)index
+{
+    AHKActionSheetItem *item = self.items[index];
+    if (item) {
+        if (title) {
+            item.title = title;
+        }
+        if (image) {
+            item.image = image;
+        }
+        [self.tableView reloadData];
+    }
+}
+
 - (void)show
 {
     NSAssert([self.items count] > 0, @"Please add some buttons before calling -show.");
