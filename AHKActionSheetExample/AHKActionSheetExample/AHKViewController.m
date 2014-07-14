@@ -37,14 +37,14 @@
                             handler:^(AHKActionSheet *as) {
                                 NSLog(@"Info tapped");
                             }];
-
-    [actionSheet addButtonWithTitle:NSLocalizedString(@"Add to Favorites", nil)
-                              image:[UIImage imageNamed:@"Icon2"]
-                         attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17.0f],
-                                      NSForegroundColorAttributeName : [UIColor blueColor]}
-                            handler:^(AHKActionSheet *as) {
-                                NSLog(@"Favorite tapped");
-                            }];
+    
+    [actionSheet addButtonWithAttributedTitle:[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Add to Favorites", nil)
+                                                                              attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17.0f], NSForegroundColorAttributeName : [UIColor blueColor]}]
+                                        image:[UIImage imageNamed:@"Icon2"]
+                                         type:AHKActionSheetButtonTypeDefault
+                                      handler:^(AHKActionSheet *as) {
+                                          NSLog(@"Favorite tapped");
+                                      }];
 
     [actionSheet addButtonWithTitle:NSLocalizedString(@"Share", nil)
                               image:[UIImage imageNamed:@"Icon3"]
@@ -117,7 +117,7 @@
 
 - (void)updateItemForActionSheet:(AHKActionSheet*)actionSheet
 {
-    [actionSheet updateItemTitle:@"Updated title" image:[UIImage imageNamed:@"Icon4"] atIndex:0];
+    [actionSheet updateItemTitle:@"Updated title" attributedTitle:nil image:[UIImage imageNamed:@"Icon4"] atIndex:0];
 }
 
 #pragma mark - Private
