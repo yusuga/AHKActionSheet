@@ -31,7 +31,7 @@ static const CGFloat kCancelButtonShadowHeightRatio = 0.333f;
 /// Used for storing button configuration.
 @interface AHKActionSheetItem : NSObject
 @property (copy, nonatomic) NSString *title;
-@property (nonatomic) NSDictionary *custumAttributes;
+@property (copy, nonatomic) NSAttributedString *attributedTitle;
 @property (strong, nonatomic) UIImage *image;
 @property (nonatomic) AHKActionSheetButtonType type;
 @property (strong, nonatomic) AHKActionSheetHandler handler;
@@ -120,11 +120,13 @@ static const CGFloat kCancelButtonShadowHeightRatio = 0.333f;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     AHKActionSheetItem *item = self.items[(NSUInteger)indexPath.row];
 
+    NSAttributedString *attrTitle;
     NSDictionary *attributes = item.type == AHKActionSheetButtonTypeDefault ? self.buttonTextAttributes : self.destructiveButtonTextAttributes;
-    if (item.custumAttributes) {
-        attributes = item.custumAttributes;
+    if (item.attributedTitle) {
+        attrTitle = item.attributedTitle;
+    } else {
+        attrTitle = [[NSAttributedString alloc] initWithString:item.title attributes:attributes];
     }
-    NSAttributedString *attrTitle = [[NSAttributedString alloc] initWithString:item.title attributes:attributes];
     cell.textLabel.attributedText = attrTitle;
     cell.textLabel.textAlignment = [self.buttonTextCenteringEnabled boolValue] ? NSTextAlignmentCenter : NSTextAlignmentLeft;
 
@@ -208,31 +210,34 @@ static const CGFloat kCancelButtonShadowHeightRatio = 0.333f;
 
 - (void)addButtonWithTitle:(NSString *)title image:(UIImage *)image type:(AHKActionSheetButtonType)type handler:(AHKActionSheetHandler)handler
 {
-    [self addButtonWithTitle:title image:image attributes:nil type:type handler:handler];
+    [self addButtonWithTitle:title attributedTitle:nil image:image type:type handler:handler];
 }
 
-- (void)addButtonWithTitle:(NSString *)title image:(UIImage *)image attributes:(NSDictionary *)attributes handler:(AHKActionSheetHandler)handler
+- (void)addButtonWithAttributedTitle:(NSAttributedString *)attributedTitle image:(UIImage *)image type:(AHKActionSheetButtonType)type handler:(AHKActionSheetHandler)handler
 {
-    [self addButtonWithTitle:title image:image attributes:attributes type:AHKActionSheetButtonTypeDefault handler:handler];
+    [self addButtonWithTitle:nil attributedTitle:attributedTitle image:image type:type handler:handler];
 }
 
-- (void)addButtonWithTitle:(NSString *)title image:(UIImage *)image attributes:(NSDictionary *)attributes type:(AHKActionSheetButtonType)type handler:(AHKActionSheetHandler)handler
+- (void)addButtonWithTitle:(NSString *)title attributedTitle:(NSAttributedString*)attributedTitle image:(UIImage *)image type:(AHKActionSheetButtonType)type handler:(AHKActionSheetHandler)handler
 {
     AHKActionSheetItem *item = [[AHKActionSheetItem alloc] init];
     item.title = title;
-    item.custumAttributes = attributes;
+    item.attributedTitle = attributedTitle;
     item.image = image;
     item.type = type;
     item.handler = handler;
     [self.items addObject:item];
 }
 
-- (void)updateItemTitle:(NSString *)title image:(UIImage *)image atIndex:(NSUInteger)index
+- (void)updateItemTitle:(NSString *)title attributedTitle:(NSAttributedString*)attributedTitle image:(UIImage *)image atIndex:(NSUInteger)index
 {
     AHKActionSheetItem *item = self.items[index];
     if (item) {
         if (title) {
             item.title = title;
+        }
+        if (attributedTitle) {
+            item.attributedTitle = attributedTitle;
         }
         if (image) {
             item.image = image;

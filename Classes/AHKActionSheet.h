@@ -93,8 +93,8 @@ typedef void(^AHKActionSheetHandler)(AHKActionSheet *actionSheet);
  */
 - (void)addButtonWithTitle:(NSString *)title image:(UIImage *)image type:(AHKActionSheetButtonType)type handler:(AHKActionSheetHandler)handler;
 
-- (void)addButtonWithTitle:(NSString *)title image:(UIImage *)image attributes:(NSDictionary*)attributes handler:(AHKActionSheetHandler)handler;
-- (void)updateItemTitle:(NSString*)title image:(UIImage*)image atIndex:(NSUInteger)index;
+- (void)addButtonWithAttributedTitle:(NSAttributedString *)attributedTitle image:(UIImage *)image type:(AHKActionSheetButtonType)type handler:(AHKActionSheetHandler)handler;
+- (void)updateItemTitle:(NSString *)title attributedTitle:(NSAttributedString*)attributedTitle image:(UIImage *)image atIndex:(NSUInteger)index;
 
 /// Displays the action sheet.
 - (void)show;
