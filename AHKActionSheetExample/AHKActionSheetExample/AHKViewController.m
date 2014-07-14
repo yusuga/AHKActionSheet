@@ -40,7 +40,8 @@
 
     [actionSheet addButtonWithTitle:NSLocalizedString(@"Add to Favorites", nil)
                               image:[UIImage imageNamed:@"Icon2"]
-                               type:AHKActionSheetButtonTypeDefault
+                         attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17.0f],
+                                      NSForegroundColorAttributeName : [UIColor blueColor]}
                             handler:^(AHKActionSheet *as) {
                                 NSLog(@"Favorite tapped");
                             }];
