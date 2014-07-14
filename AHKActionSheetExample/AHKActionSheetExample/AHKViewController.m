@@ -60,6 +60,10 @@
                             }];
 
     [actionSheet show];
+    
+#if 1
+    [self performSelector:@selector(updateItemForActionSheet:) withObject:actionSheet afterDelay:3.];
+#endif
 }
 
 - (IBAction)advancedExampleTapped:(id)sender
@@ -108,6 +112,11 @@
                             handler:nil];
 
     [actionSheet show];
+}
+
+- (void)updateItemForActionSheet:(AHKActionSheet*)actionSheet
+{
+    [actionSheet updateItemTitle:@"Updated title" image:[UIImage imageNamed:@"Icon4"] atIndex:0];
 }
 
 #pragma mark - Private
